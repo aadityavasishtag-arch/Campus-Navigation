@@ -7,11 +7,11 @@ A menu-driven campus navigation application built in **C++** using graph data st
 - **View campus locations** with their location IDs.
 - **Find the shortest route** between two locations.
 - **Display route distance** in meters.
-- **Estimate walking time** using a fixed assumed walking speed of 80 meters per minute.
-- **Search locations** by name (case-insensitive partial matching).
+- **Estimate walking time** using an assumed walking speed of 80 meters per minute.
+- **Search locations** by name using case-insensitive partial matching.
 - **View campus connections** and their distances.
-- **Add locations** while the program is running.
-- **Add connections** between locations while the program is running.
+- **Add locations and connections** while the program is running.
+- **Validate user input**, including empty names, duplicate locations, invalid IDs, and duplicate connections.
 - **Save and load the campus map** using a local `campus.txt` file, so changes persist between runs.
 
 ## Technologies Used
@@ -24,19 +24,33 @@ A menu-driven campus navigation application built in **C++** using graph data st
 
 | Concept | How it is used |
 |---|---|
-| Graph | Represents the campus and the paths between locations |
+| Graph | Represents campus locations and paths |
 | Adjacency list | Stores each location's directly connected locations |
 | Priority queue | Efficiently selects the next closest location in Dijkstra's algorithm |
-| Dijkstra's algorithm | Calculates the shortest route for non-negative distances |
+| Dijkstra's algorithm | Calculates shortest routes for non-negative distances |
 | Parent array | Reconstructs the route from destination back to source |
 | Vectors | Store locations, graph edges, distances, and the final route |
 | File handling | Saves and restores the campus map |
 
-**Shortest-path complexity:** With an adjacency-list graph and a min-priority queue, Dijkstra's algorithm runs in approximately (O((V+E)\log V)), where (V) is the number of locations and (E) is the number of connections.
+**Shortest-path complexity:** With an adjacency-list graph and a min-priority queue, Dijkstra's algorithm runs in approximately **O((V + E) log V)**, where **V** is the number of locations and **E** is the number of connections.
+
+## Project Structure
+
+```text
+Campus-Navigation/
+├── data/
+│   └── sample-campus.txt
+├── src/
+│   └── srcCode.cc
+├── .gitignore
+└── README.md
+```
 
 ## Default Campus Map
 
-The initial map contains these locations:
+When no saved `campus.txt` file is found, the application initializes this map:
+
+**Locations**
 
 1. Main Gate
 2. Library
@@ -44,24 +58,45 @@ The initial map contains these locations:
 4. CSE Department
 5. Auditorium
 
-Default connections (distances are in meters):
+**Default connections**
 
 | From | To | Distance |
 |---|---|---:|
-| Main Gate | Library | 200 |
-| Main Gate | Canteen | 300 |
-| Library | Canteen | 180 |
-| Library | CSE Department | 250 |
-| Canteen | CSE Department | 100 |
-| CSE Department | Auditorium | 150 |
+| Main Gate | Library | 200 m |
+| Main Gate | Canteen | 300 m |
+| Library | Canteen | 180 m |
+| Library | CSE Department | 250 m |
+| Canteen | CSE Department | 100 m |
+| CSE Department | Auditorium | 150 m |
 
-The map can be extended from the application menu; these are only the initial sample locations and paths.
+A copy of this starter map is included at `data/sample-campus.txt`. To use it as the initial saved map, copy it into the program's working directory and name it `campus.txt`.
+
+**Windows (PowerShell):**
+
+```powershell
+Copy-Item data/sample-campus.txt campus.txt
+```
+
+**Linux / macOS:**
+
+```bash
+cp data/sample-campus.txt campus.txt
+```
+
+The application reads and writes `campus.txt` in its current working directory. If that file is absent, it creates the default map automatically.
 
 ## Getting Started
 
 ### Prerequisites
 
 Install a C++ compiler such as **g++**.
+
+### Clone the repository
+
+```bash
+git clone https://github.com/aadityavasishtag-arch/Campus-Navigation.git
+cd Campus-Navigation
+```
 
 ### Compile
 
@@ -79,10 +114,10 @@ g++ -std=c++11 src/srcCode.cc -o campus
 
 ### Run
 
-**Windows:**
+**Windows (PowerShell):**
 
-```bash
-campus.exe
+```powershell
+.\\campus.exe
 ```
 
 **Linux / macOS:**
@@ -105,23 +140,15 @@ The menu provides these operations:
 8. Load the campus map
 0. Exit
 
-Enter the location IDs shown by the program when selecting a source and destination. The application stores distances in meters.
-
-### Map persistence
-
-The program reads the saved map from `campus.txt` when it starts. If no saved map is available, it initializes the default campus map. Adding a location or connection saves the updated map; the Save and Load menu options are also available manually.
-
-Keep `campus.txt` in the program's **working directory** when running the application. If the file is missing, the default map is initialized.
+Enter the location IDs shown by the program when selecting a source and destination. Distances are stored in meters.
 
 ## Possible Future Improvements
 
 - Display multiple route alternatives.
 - Support editing and deleting locations or connections.
-- Validate location names and prevent duplicate locations or connections.
-- Validate saved map data before loading it.
-- Add a graphical campus map with highlighted routes.
-- Build a web interface for interactive navigation.
+- Build a graphical campus map with highlighted routes.
 - Add landmarks, building categories, and accessibility-aware routes.
+- Develop a web interface for interactive navigation.
 
 ## Author
 
