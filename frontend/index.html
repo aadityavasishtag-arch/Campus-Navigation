@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Navigation Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">C</div>
+                <div>
+                    <h2>CampusNav</h2>
+                    <p>SMART WAYFINDING</p>
+                </div>
+            </div>
+
+            <div class="sidebar-label">MAIN MENU</div>
+
+            <nav>
+                <a href="#" class="nav-item active">
+                    <span>⌂</span> Dashboard
+                </a>
+
+                <a href="#planner" class="nav-item">
+                    <span>⌖</span> Route Planner
+                </a>
+
+                <a href="#campus" class="nav-item">
+                    <span>▦</span> Campus Locations
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="status-dot"></div>
+                <span>Navigation System</span>
+                <strong>Online</strong>
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <h1>Campus Dashboard</h1>
+                    <p>Explore your campus. Find the shortest way.</p>
+                </div>
+
+                <div class="topbar-tag">
+                    <span class="status-dot"></span>
+                    System Active
+                </div>
+            </header>
+
+
+            <!-- Statistics -->
+            <section class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">⌖</div>
+                    <p>Total Locations</p>
+                    <h2 id="locationCount">--</h2>
+                    <span>Available campus destinations</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <p>Route Algorithm</p>
+                    <h2>Dijkstra</h2>
+                    <span>Shortest-path calculation</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">↗</div>
+                    <p>Navigation Mode</p>
+                    <h2>Walking</h2>
+                    <span>Estimated speed: 80 m/min</span>
+                </div>
+
+            </section>
+
+
+            <!-- Route Planner -->
+            <section class="content-grid">
+
+                <div class="panel route-panel" id="planner">
+
+                    <div class="panel-heading">
+                        <div>
+                            <span class="eyebrow">PLAN YOUR JOURNEY</span>
+                            <h2>Find Your Route</h2>
+                            <p>Select your starting point and destination.</p>
+                        </div>
+
+                        <div class="heading-icon">⌖</div>
+                    </div>
+
+
+                    <div class="route-form">
+
+                        <label for="source">STARTING LOCATION</label>
+
+                        <select id="source">
+                            <option value="">Loading locations...</option>
+                        </select>
+
+                        <div class="route-connector"></div>
+
+                        <label for="destination">DESTINATION</label>
+
+                        <select id="destination">
+                            <option value="">Loading locations...</option>
+                        </select>
+
+                        <button id="findRoute">
+                            Find Shortest Route <span>→</span>
+                        </button>
+
+                    </div>
+
+
+                    <div id="result">
+                        <p>Select your locations to find a route.</p>
+                    </div>
+
+                </div>
+
+
+                <!-- Campus Locations -->
+                <div class="panel locations-panel" id="campus">
+
+                    <div class="panel-heading">
+                        <div>
+                            <span class="eyebrow">EXPLORE</span>
+                            <h2>Campus Locations</h2>
+                            <p>Available destinations on campus.</p>
+                        </div>
+
+                        <div class="heading-icon">▦</div>
+                    </div>
+
+                    <ul id="locationsList">
+                        <li>Loading locations...</li>
+                    </ul>
+                   
+                   
+
+                </div>
+
+            </section>
+
+                        <!-- Campus Management Forms -->
+            <section class="management-grid">
+
+                <!-- Add New Location Card -->
+                <div class="panel management-card">
+
+                    <div class="panel-heading">
+                        <div>
+                            <span class="eyebrow">CAMPUS MANAGEMENT</span>
+                            <h2>Add New Location</h2>
+                            <p>Expand your campus network.</p>
+                        </div>
+
+                        <div class="heading-icon">+</div>
+                    </div>
+
+                    <form id="addLocationForm" class="management-form">
+
+                        <label for="newLocationName">LOCATION NAME</label>
+
+                        <input
+                            type="text"
+                            id="newLocationName"
+                            placeholder="e.g. Sports Complex"
+                            required
+                        >
+
+                        <button type="submit" id="addLocationButton">
+                            + Add Location
+                        </button>
+
+                    </form>
+
+                    <p id="locationMessage" class="form-message"></p>
+
+                </div>
+
+
+                <!-- Add New Connection Card -->
+                <div class="panel management-card">
+
+                    <div class="panel-heading">
+                        <div>
+                            <span class="eyebrow">NETWORK MANAGEMENT</span>
+                            <h2>Add New Connection</h2>
+                            <p>Connect two campus destinations.</p>
+                        </div>
+
+                        <div class="heading-icon">↔</div>
+                    </div>
+
+                    <form id="addConnectionForm" class="management-form">
+
+                        <label for="connectionFrom">FROM</label>
+
+                        <select id="connectionFrom" required>
+                            <option value="">Select starting location</option>
+                        </select>
+
+                        <label for="connectionTo">TO</label>
+
+                        <select id="connectionTo" required>
+                            <option value="">Select destination</option>
+                        </select>
+
+                        <label for="connectionDistance">DISTANCE (METRES)</label>
+
+                        <input
+                            type="number"
+                            id="connectionDistance"
+                            placeholder="Enter distance"
+                            min="1"
+                            required
+                        >
+
+                        <button type="submit">
+                            + Add Connection
+                        </button>
+
+                    </form>
+
+                    <p id="connectionMessage" class="form-message"></p>
+
+                </div>
+
+            </section>
+            <!-- Interactive Campus Map -->
+            <section class="panel map-panel" id="map">
+
+                <div class="panel-heading">
+                    <div>
+                        <span class="eyebrow">VISUAL NAVIGATION</span>
+                        <h2>Campus Map</h2>
+                        <p>Explore locations and view the shortest route.</p>
+                    </div>
+
+                    <div class="heading-icon">⌖</div>
+                </div>
+
+                <div class="map-legend">
+                    <span><i class="legend-dot normal"></i> Location</span>
+                    <span><i class="legend-dot start"></i> Starting Point</span>
+                    <span><i class="legend-dot end"></i> Destination</span>
+                    <span><i class="legend-line"></i> Shortest Route</span>
+                </div>
+
+                <div class="map-container">
+                    <svg id="campusMap" viewBox="0 0 800 420" role="img" aria-label="Schematic campus navigation map">
+                    </svg>
+                </div>
+
+            </section>
+
+
+            <footer>
+                <p>CampusNav © 2026</p>
+                <p>Powered by C++ · Crow API · Dijkstra's Algorithm</p>
+            </footer>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

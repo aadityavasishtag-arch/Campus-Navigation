@@ -1,0 +1,33 @@
+7
+Main Gate
+Library
+Canteen
+CSE Department
+Auditorium
+Sports Complex
+CS parking
+8
+Main Gate
+Library
+200
+Main Gate
+Canteen
+300
+Library
+Canteen
+180
+Library
+CSE Department
+250
+Canteen
+CSE Department
+100
+CSE Department
+Auditorium
+150
+CSE Department
+CS parking
+100
+Auditorium
+Sports Complex
+120
