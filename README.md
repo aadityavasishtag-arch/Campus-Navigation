@@ -7,7 +7,7 @@ A menu-driven campus navigation application built in **C++** using graph data st
 - **View campus locations** with their location IDs.
 - **Find the shortest route** between two locations.
 - **Display route distance** in meters.
-- **Estimate walking time** using a configurable assumed walking speed of 80 meters per minute.
+- **Estimate walking time** using a fixed assumed walking speed of 80 meters per minute.
 - **Search locations** by name (case-insensitive partial matching).
 - **View campus connections** and their distances.
 - **Add locations** while the program is running.
@@ -68,13 +68,13 @@ Install a C++ compiler such as **g++**.
 **Windows (PowerShell / Command Prompt):**
 
 ```bash
-g++ -std=c++11 srcCode.cc -o campus.exe
+g++ -std=c++11 src/srcCode.cc -o campus.exe
 ```
 
 **Linux / macOS:**
 
 ```bash
-g++ -std=c++11 srcCode.cc -o campus
+g++ -std=c++11 src/srcCode.cc -o campus
 ```
 
 ### Run
@@ -117,7 +117,8 @@ Keep `campus.txt` in the program's **working directory** when running the applic
 
 - Display multiple route alternatives.
 - Support editing and deleting locations or connections.
-- Prevent duplicate connections and improve map validation.
+- Validate location names and prevent duplicate locations or connections.
+- Validate saved map data before loading it.
 - Add a graphical campus map with highlighted routes.
 - Build a web interface for interactive navigation.
 - Add landmarks, building categories, and accessibility-aware routes.
