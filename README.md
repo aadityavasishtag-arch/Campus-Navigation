@@ -1,122 +1,92 @@
-# CampusNav — Campus Navigation System
+# Campus Navigation System
 
-CampusNav is a campus wayfinding application that combines a **C++ graph-based navigation backend** with a **web dashboard**. It helps users explore campus locations, manage connections between them, and find the shortest walking route using Dijkstra's algorithm.
-
-The project began as a menu-driven C++ application and has been extended with a Crow REST API and an interactive HTML, CSS, and JavaScript frontend.
+A full-stack campus navigation application built using **C++**, **Crow**, **HTML**, **CSS**, and **JavaScript**. The system helps users explore campus locations, manage connections between them, and find the shortest route using Dijkstra's shortest-path algorithm.
 
 ## Features
 
-### Navigation
-- Find the shortest route between two campus locations.
-- Calculate route distance in metres.
-- Estimate walking time using an assumed speed of **80 metres per minute**.
-- Use Dijkstra's shortest-path algorithm with an adjacency-list graph and a priority queue.
-
-### Campus management
-- View the available campus locations.
-- View connections and their distances.
-- Add new campus locations through the web dashboard.
-- Add a connection between two existing locations and specify its distance.
-- Refresh the location lists and schematic map after updates.
-- Validate connection input, including missing locations, identical endpoints, and non-positive distances.
-
-### Web dashboard
-- Route planner with dynamically populated source and destination selectors.
-- Interactive schematic campus map showing locations and connections.
-- Shortest-route visualization.
-- Campus location and connection management forms.
-- Responsive dashboard layout with side-by-side management cards on desktop and stacked cards on smaller screens.
-
-### Original console application
-The repository also retains the original menu-driven C++ console application, including location search, map display, and its file save/load functionality.
+- **Shortest Path Navigation:** Finds the minimum-distance route between two campus locations using Dijkstra's algorithm.
+- **Interactive Campus Map:** Displays campus locations and highlights the selected route.
+- **Location Management:** Add new campus locations through the web dashboard.
+- **Connection Management:** Add connections between locations and specify their distances.
+- **Persistent Data Storage:** Saves campus locations and connections in `data/campus_data.txt`, preserving updates after the backend restarts.
+- **REST API:** Connects the frontend to the C++ backend through HTTP requests.
+- **Responsive Interface:** Provides a user-friendly dashboard for campus navigation.
 
 ## Technologies Used
 
-| Technology | Purpose |
+| Component | Technology |
 |---|---|
-| C++ (C++17 for the backend) | Graph model, navigation logic, and API server |
-| Crow | HTTP REST API |
-| Standalone Asio | Networking support for Crow |
-| HTML5 | Dashboard structure |
-| CSS3 | Dashboard styling and responsive layout |
-| JavaScript | API requests, form handling, route display, and map updates |
-| CMake | Backend build configuration |
-| Python HTTP server | Local frontend development server |
+| Backend | C++ (C++17) |
+| Web Framework | Crow |
+| Networking | Standalone Asio |
+| Frontend | HTML, CSS, JavaScript |
+| Build System | CMake |
+| Algorithm | Dijkstra's Shortest Path Algorithm |
+| Data Structure | Weighted graph using an adjacency list |
+| Data Storage | File handling in C++ |
 
-## Data Structures and Algorithms
+## How It Works
 
-| Concept | How it is used |
-|---|---|
-| Graph | Represents campus locations and paths |
-| Adjacency list | Stores the connections for each location |
-| Priority queue | Selects the next closest location in Dijkstra's algorithm |
-| Dijkstra's algorithm | Finds shortest routes for non-negative edge weights |
-| Parent information | Reconstructs the route from destination to source |
-| Vectors | Store locations, graph edges, distances, and paths |
+The campus is represented as an **undirected weighted graph**:
 
-**Dijkstra's time complexity:** With an adjacency-list graph and a min-priority queue, the algorithm runs in approximately **O((V + E) log V)**, where **V** is the number of locations and **E** is the number of connections.
+- Each campus location represents a vertex.
+- Each connection between locations represents an edge.
+- The distance between locations represents the edge weight.
+- An adjacency list stores the graph.
+- A priority queue helps Dijkstra's algorithm select the next closest location.
+
+The backend exposes REST API endpoints. The frontend uses these endpoints to retrieve campus information, add locations, create connections, and request shortest routes.
+
+Campus data is stored in `data/campus_data.txt`, so locations and connections added through the dashboard remain available after restarting the backend.
 
 ## Project Structure
 
 ```text
 Campus-Navigation/
 ├── backend/
-│   ├── crow/                 # Crow header files
+│   ├── crow/                 # Crow framework header files
 │   ├── crow.h
 │   ├── main.cpp              # REST API routes and server
-│   ├── navigation.cpp       # Graph and shortest-path implementation
-│   └── navigation.h
+│   ├── navigation.cpp        # Graph and shortest-path implementation
+│   └── navigation.h          # Graph declarations
 ├── frontend/
-│   ├── index.html            # Dashboard
-│   ├── style.css             # Dashboard styles
-│   └── script.js             # API integration and map rendering
+│   ├── index.html            # Web dashboard
+│   ├── script.js             # Frontend functionality and API integration
+│   └── style.css             # Dashboard styling
 ├── data/
-│   └── sample-campus.txt
-├── src/
-│   └── srcCode.cc            # Original console application
+│   └── campus_data.txt       # Persistent campus map data
 ├── CMakeLists.txt
 ├── .gitignore
 └── README.md
 ```
 
-## Default Campus Map
+## Sample Campus Data
 
-The backend's starter campus graph contains these locations:
+The initial campus graph contains seven locations:
 
-1. Main Gate
-2. Library
-3. Canteen
-4. CSE Department
-5. Auditorium
+- Main Gate
+- Library
+- Canteen
+- CSE Department
+- Auditorium
+- Sports Complex
+- CS Parking
 
-Default connections:
+The starter graph contains eight connections, each assigned a distance in metres. Users can add further locations and connections through the web interface.
 
-| From | To | Distance |
-|---|---|---:|
-| Main Gate | Library | 200 m |
-| Main Gate | Canteen | 300 m |
-| Library | Canteen | 180 m |
-| Library | CSE Department | 250 m |
-| Canteen | CSE Department | 100 m |
-| CSE Department | Auditorium | 150 m |
-
-The web dashboard can add further locations and connections while the backend is running.
-
-> **Current storage note:** The web backend currently keeps dynamically added locations and connections in memory. They are reset when the backend process is restarted. Permanent storage for the web backend is a planned improvement. The original console application has its own file-based save/load functionality.
-
-## Getting Started
+## Installation and Setup
 
 ### Prerequisites
 
-For the full-stack version on Windows, install:
+Install the following:
 
-- Git
+- C++ compiler supporting C++17
 - CMake
-- GCC / MinGW-w64 (the MSYS2 UCRT64 toolchain is used for development)
-- Standalone Asio
+- MinGW-w64 (MSYS2 UCRT64 is used for development on Windows)
 - Python 3
+- Standalone Asio
 
-Crow's header files are included in the `backend/crow/` directory.
+The Crow framework headers are included in the `backend/crow/` directory.
 
 If using MSYS2 UCRT64, install Asio from the **MSYS2 UCRT64** terminal:
 
@@ -124,103 +94,97 @@ If using MSYS2 UCRT64, install Asio from the **MSYS2 UCRT64** terminal:
 pacman -S mingw-w64-ucrt-x86_64-asio
 ```
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/aadityavasishtag-arch/Campus-Navigation.git
 cd Campus-Navigation
 ```
 
-### 2. Build the C++ backend
+### 2. Build the Backend
 
-From the project root, configure and build the backend:
+From the project root, configure and build the application:
 
-```powershell
-cmake -S . -B build -G "MinGW Makefiles"
+```bash
+cmake -S . -B build
 cmake --build build
 ```
 
-If the `build` directory has already been configured with a different CMake generator, use that existing build configuration or remove and recreate the build directory before configuring with MinGW Makefiles.
+### 3. Start the Backend Server
 
-### 3. Start the backend
-
-In **PowerShell**, from the project root:
+In **PowerShell**, from the project root, run:
 
 ```powershell
-.\build\campus_backend.exe
+.\\build\\campus_backend.exe
 ```
 
-The Crow API server runs at:
+The backend server runs at:
 
 ```text
 http://localhost:18080
 ```
 
-Keep this terminal open while using the dashboard.
+Keep this terminal open while using the application.
 
-### 4. Start the frontend
+### 4. Start the Frontend
 
-Open a **second terminal**. From the project root, run:
+Open a **second PowerShell terminal**. From the project root, run:
 
 ```powershell
 cd frontend
 py -m http.server 5500
 ```
 
-Open the dashboard in your browser:
+Open the application in your browser:
 
 ```text
 http://localhost:5500
 ```
 
-Keep both terminals running: one for the C++ backend and one for the frontend server.
+Keep both terminals running: one for the backend and one for the frontend server.
 
-## REST API
+## REST API Endpoints
 
-The frontend communicates with the Crow backend at `http://localhost:18080`.
+The backend exposes the following endpoints:
 
-| Method | Endpoint | Purpose |
+| Method | Endpoint | Description |
 |---|---|---|
-| GET | `/locations` | Retrieve campus locations |
-| POST | `/locations` | Add a campus location |
-| GET | `/connections` | Retrieve campus connections |
-| POST | `/connections` | Add a connection and its distance |
-| GET | `/route` | Calculate a shortest route |
+| GET | `/locations` | Retrieves all campus locations |
+| POST | `/locations` | Adds a new campus location |
+| GET | `/connections` | Retrieves campus connections |
+| POST | `/connections` | Adds a connection between locations |
+| GET | `/route` | Finds the shortest route between two locations |
 
-The POST endpoints accept JSON request bodies. The route endpoint accepts the source and destination as query parameters.
+The POST endpoints accept JSON request bodies. The route endpoint accepts source and destination query parameters.
 
-## Original Console Application
+## Algorithm Used: Dijkstra's Shortest Path
 
-The original C++ console program is available at `src/srcCode.cc`.
+Dijkstra's algorithm finds the minimum-distance path between a source and destination in a graph with non-negative edge weights.
 
-Compile with g++:
+**Working:**
 
-**Windows:**
-```powershell
-g++ -std=c++11 src/srcCode.cc -o campus.exe
-.\campus.exe
-```
+1. Initialize the source vertex with distance zero and all other vertices with infinity.
+2. Select the unvisited vertex with the smallest tentative distance using a priority queue.
+3. Examine its adjacent vertices and update their distances when a shorter path is found.
+4. Repeat until the destination is reached or no reachable vertices remain.
+5. Reconstruct the shortest path using the recorded predecessor information.
 
-**Linux / macOS:**
-```bash
-g++ -std=c++11 src/srcCode.cc -o campus
-./campus
-```
+**Time Complexity:** With an adjacency list and a priority queue, the time complexity is approximately **O((V + E) log V)**, where **V** is the number of vertices and **E** is the number of edges.
 
-The console application provides menu operations for displaying locations, finding shortest routes, searching locations, viewing connections, adding locations and connections, and saving/loading the campus map.
+## Future Enhancements
 
-## Future Improvements
-
-- Add permanent file-based or database storage to the web backend.
-- Support editing and deleting locations and connections.
-- Add route alternatives and accessibility-aware navigation.
-- Improve map positioning with real campus coordinates.
-- Deploy the web application so it can be accessed online.
+- Deploy the application online for public access.
+- Add support for editing and deleting locations and connections.
+- Introduce accessibility-aware route options.
+- Improve the map with real campus coordinates and more detailed layouts.
+- Add estimated walking times and additional navigation features.
 
 ## Author
 
 **Aditya G**
 
+GitHub: [aadityavasishtag-arch](https://github.com/aadityavasishtag-arch)
+
 ---
 
-*CampusNav is a data structures and algorithms project extended into a full-stack campus navigation application.*
+*Campus Navigation is a data structures and algorithms project extended into a full-stack web application.*
