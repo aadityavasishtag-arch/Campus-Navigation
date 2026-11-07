@@ -25,6 +25,20 @@ A full-stack campus navigation application built using **C++**, **Crow**, **HTML
 | Data Structure | Weighted graph using an adjacency list |
 | Data Storage | File handling in C++ |
 
+## Application Screenshots
+
+### Dashboard
+![Campus Navigation dashboard](screenshots/dashboard.png)
+
+### Campus Map
+![Interactive campus map](screenshots/Map.png)
+
+### Application View
+![Campus Navigation application view](screenshots/ss2.png)
+
+### Update Functionality
+![Campus Navigation update view](screenshots/update.png)
+
 ## How It Works
 
 The campus is represented as an **undirected weighted graph**:
@@ -55,6 +69,7 @@ Campus-Navigation/
 │   └── style.css             # Dashboard styling
 ├── data/
 │   └── campus_data.txt       # Persistent campus map data
+├── screenshots/              # Application screenshots
 ├── CMakeLists.txt
 ├── .gitignore
 └── README.md
@@ -115,7 +130,7 @@ cmake --build build
 In **PowerShell**, from the project root, run:
 
 ```powershell
-.\\build\\campus_backend.exe
+.\build\campus_backend.exe
 ```
 
 The backend server runs at:
@@ -153,7 +168,7 @@ The backend exposes the following endpoints:
 | POST | `/locations` | Adds a new campus location |
 | GET | `/connections` | Retrieves campus connections |
 | POST | `/connections` | Adds a connection between locations |
-| GET | `/route` | Finds the shortest route between two locations |
+| GET | `/route` | Finds the shortest route between two campus locations |
 
 The POST endpoints accept JSON request bodies. The route endpoint accepts source and destination query parameters.
 
