@@ -18,6 +18,8 @@ struct Edge
 
 const int INF = numeric_limits<int>::max();
 
+string toLowerCase(string text);
+
 vector<string> locations = {
     "Main Gate",
     "Library",
@@ -121,6 +123,21 @@ bool loadCampusMap()
             return false;
         }
 
+        if (name.find_first_not_of(" \t\r") == string::npos)
+        {
+            cout << "Invalid campus map file: empty location name.\n";
+            return false;
+        }
+
+        for (const string &existingName : loadedLocations)
+        {
+            if (toLowerCase(existingName) == toLowerCase(name))
+            {
+                cout << "Invalid campus map file: duplicate location name.\n";
+                return false;
+            }
+        }
+
         loadedLocations.push_back(name);
     }
 
@@ -149,6 +166,22 @@ bool loadCampusMap()
         {
 
             cout << "Invalid connection in file.\n";
+            return false;
+        }
+
+        bool duplicateConnection = false;
+        for (const Edge &existingEdge : loadedGraph[source])
+        {
+            if (existingEdge.destination == destination)
+            {
+                duplicateConnection = true;
+                break;
+            }
+        }
+
+        if (duplicateConnection)
+        {
+            cout << "Invalid campus map file: duplicate connection.\n";
             return false;
         }
 
@@ -224,6 +257,12 @@ void searchLocation()
 
     cout << "\nEnter location name to search: ";
     getline(cin, searchName);
+
+    if (searchName.find_first_not_of(" \t\r") == string::npos)
+    {
+        cout << "Please enter a location name to search.\n";
+        return;
+    }
 
     string searchLower = toLowerCase(searchName);
     bool found = false;
@@ -355,10 +394,19 @@ void addLocation()
     cout << "\nEnter new location name: ";
     getline(cin, name);
 
-    if (name.empty())
+    if (name.find_first_not_of(" \t\r") == string::npos)
     {
         cout << "Location name cannot be empty.\n";
         return;
+    }
+
+    for (const string &existingName : locations)
+    {
+        if (toLowerCase(existingName) == toLowerCase(name))
+        {
+            cout << "A location with this name already exists.\n";
+            return;
+        }
     }
 
     locations.push_back(name);
@@ -401,6 +449,15 @@ void addConnection()
     {
         cout << "Distance must be positive.\n";
         return;
+    }
+
+    for (const Edge &edge : graph[source - 1])
+    {
+        if (edge.destination == destination - 1)
+        {
+            cout << "A connection between these locations already exists.\n";
+            return;
+        }
     }
 
     addEdge(source - 1, destination - 1, distance);
